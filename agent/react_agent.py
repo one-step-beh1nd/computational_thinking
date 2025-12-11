@@ -7,6 +7,8 @@ from typing import List, Optional
 from .llm_client import LLMClient
 from .types import Message
 from ..tools.registry import ToolRegistry
+# from CM.tools.registry import ToolRegistry
+
 
 
 class ReactAgent:
@@ -28,15 +30,20 @@ class ReactAgent:
         self.max_turns = max_turns
 
     async def run(self, query: str) -> str:
+        system_prompt = (
+            "你是一名清晰、耐心且善于讲解的智能助理。你特别擅长讲述棋类人工智能的发展"
+            "（从深蓝到 AlphaGo）以及其中体现的计算思维，包括：如何用算法、分解、抽象、搜索、"
+            "模式识别与评价函数来解决复杂问题。"
+            "同时，你也是一个通用型助理，能够回答任何领域的普通问题。\n\n"
+            "在回答时：\n"
+            "- 优先给出结构化、易理解的解释。\n"
+            "- 面向不同背景的用户调整表达方式。\n"
+            "- 不捏造事实，不暴露内部推理链。\n"
+            "- 遇到不确定的问题，明确说明并给出合理的方向。"
+        )
+
         messages: List[Message] = [
-            Message(
-                role="system",
-                content=(
-                    "You are a helpful ReAct agent. Think step by step. "
-                    "If tools are useful, call them using the available functions. "
-                    "When you are ready to answer, reply directly to the user."
-                ),
-            ),
+            Message(role="system", content=system_prompt),
             Message(role="user", content=query),
         ]
 
@@ -63,7 +70,10 @@ class ReactAgent:
             final_content = llm_message.get("content") or ""
             return final_content
 
-        return "Reached maximum iterations without a final answer."
+        # 达到最大轮次后仍无明确回答：直接向 LLM 请求最终答复（不再调用工具）
+        fallback = await self.llm.complete(messages, tools=None, tool_choice=None)
+        messages.append(Message.from_openai(fallback))
+        return fallback.get("content") or "这是我的直接回答：目前根据已知信息做出的最佳解读。"
 
     async def _execute_tool_call(self, tool_call: dict) -> Message:
         """Execute a single tool call and wrap its result as a tool message."""

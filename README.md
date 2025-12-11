@@ -28,7 +28,7 @@ This folder contains a lightweight ReAct agent that speaks the OpenAI chat-compl
      ```
 4. Run an example query:
    ```
-   python main.py "请介绍一下最新的AI新闻"
+   python -m CM.main
    ```
 
 ## Files
