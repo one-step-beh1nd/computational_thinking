@@ -3,7 +3,6 @@
 This folder contains a lightweight ReAct agent that speaks the OpenAI chat-completions API and two tools wired for tool-calling:
 
 - `rag_search`: local retrieval over your `.txt` corpus, indexed with **pyserini**.
-- `web_search`: live web search via Serper (Google-like) API.
 
 ## Quick start
 1. Install deps (Python 3.10+):
@@ -17,7 +16,6 @@ This folder contains a lightweight ReAct agent that speaks the OpenAI chat-compl
    # OPENAI_API_KEY=...
    # OPENAI_BASE_URL=...      # e.g. https://api.openai.com/v1 or your proxy
    # OPENAI_MODEL=...         # e.g. gpt-4o-mini
-   # SERPER_API_KEY=...       # get from https://serper.dev
    # RAG_INDEX_DIR=/home/zlp/CM/rag/index  # optional override
    ```
 3. Prepare RAG data:
