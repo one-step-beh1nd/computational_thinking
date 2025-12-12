@@ -9,7 +9,7 @@ https://github.com/one-step-beh1nd/computational_thinking
 
 ## 视频演示链接
 
-TODO
+https://cloud.tsinghua.edu.cn/d/73d5d9ea09b74bda9e01/
 
 ## 选题方向：棋类AI的计算思维
 
