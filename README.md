@@ -33,11 +33,9 @@ This folder contains a lightweight ReAct agent that speaks the OpenAI chat-compl
 - `agent/llm_client.py`: OpenAI-compatible async client (base URL & model left for you to fill via env).
 - `agent/react_agent.py`: ReAct loop with tool-calling.
 - `tools/rag_tool.py`: Pyserini-backed retriever over local corpus.
-- `tools/web_search.py`: Serper-based web search (set `SERPER_API_KEY`).
 - `rag/build_index.py`: turns `.txt` corpus into a Lucene index for RAG.
 
 ## Notes
 - The agent registers tools at startup; add more tools under `tools/` and register them in `main.py`.
 - Pyserini requires Java; ensure `JAVA_HOME` is set if indexing errors appear.
-- If you prefer a different search provider, swap `web_search.py` to use your API of choice and expose the key via env/config.
 
