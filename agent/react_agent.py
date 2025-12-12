@@ -84,6 +84,10 @@ class ReactAgent:
         except json.JSONDecodeError:
             parsed_args = {"input": raw_args}
 
+        # 打印工具调用信息
+        print(f"\n[调用工具] {name}")
+        print(f"[参数] {json.dumps(parsed_args, ensure_ascii=False, indent=2)}")
+
         result = await self.tools.execute(name, parsed_args)
         if hasattr(result, "render_for_llm"):
             content = result.render_for_llm()
